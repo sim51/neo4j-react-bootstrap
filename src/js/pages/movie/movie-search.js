@@ -14,7 +14,7 @@ import * as action from './action';
 // logger
 const log = new Log("Component.MovieSearch");
 
-const widgets = { TextCypherComplete: TextCypherComplete };
+const widgets = { textCypherComplete: TextCypherComplete };
 
 class MovieSearch extends Component {
 
@@ -80,7 +80,7 @@ class MovieSearch extends Component {
                           onSubmit={ data => this.saveFormToStore(data) }
                           formData={this.props.search}
                           className={""}
-                          widgets={{ textCypherComplete: TextCypherComplete }}/>
+                          widgets={widgets}/>
                 </aside>
                 <section className="col-md-8 main">
                     <h2>Search result</h2>
