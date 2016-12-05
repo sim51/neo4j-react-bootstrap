@@ -1,0 +1,43 @@
+form {
+
+  .form-control {
+    color: #000000;
+  }
+
+  &.horizontal {
+    .form-group {
+      float: left;
+      width: 100%;
+
+      .help-block {
+        margin-bottom: 0;
+      }
+
+      label.control-label {
+        width: 30%;
+        float: left;
+        text-align: right;
+        padding: 6px 30px 6px 0;
+        margin: 0;
+
+      }
+
+      input.form-control, select.form-control {
+        width: 70%;
+        float: left;
+
+        &:after {
+          clear: both;
+        }
+      }
+
+      > div, > p {
+        width: 70%;
+        margin-left: 30%;
+        clear: both;
+      }
+
+    }
+  }
+
+}

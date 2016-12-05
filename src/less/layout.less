@@ -1,0 +1,113 @@
+html {
+  height: 100%;
+
+  body {
+    height: ~"calc(100% - 60px)";
+
+    // Main react dom component
+    div#root {
+      height: 100%;
+
+      // React wrapper
+      & > div {
+        height: 100%;
+
+        // Header
+        header.navbar {
+          height: 50px;
+          border-radius: 0;
+          box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.20);
+          margin-bottom: 10px;
+          background-color: @white-base;
+
+          a.brand {
+            display: block;
+            height: @navbar-height; 
+
+            img.baseline {
+              position: relative;
+              top: 50%;
+              -webkit-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+            }
+          }
+
+          ul.nav {
+            li {
+              > a {
+                //line-height: 30px;
+              }
+
+              &.active {
+                > a {
+                  border-bottom: 4px solid rgba(0, 0, 0, 0.20);
+                }
+
+                > ul.dropdown-menu {
+                  margin-top: -5px;
+
+                  > li.active {
+                    a {
+                      border-bottom: 0px;
+                    }
+                  }
+                }
+
+              }
+            }
+          }
+        }
+
+        // Main part of pages
+        main {
+          margin-top: @navbar-height;
+          //height:  ~"calc(100% - 60px)";
+          //overflow: hidden;
+
+          // For all sub-item of main
+          & > section, & > aside {
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+          }
+
+          // Page title if needed
+          h1 {
+            margin: 20px;
+            font-size: 200%;
+            text-align: center;
+
+            &.page-header {
+              padding-bottom: 10px;
+              margin: 10px 0 25px;
+              border-bottom: 1px solid lighten(@gray-base, 50%);
+            }
+          }
+
+          // Sidebar for menu
+          .sidebar {
+            ul.nav {
+              width: 100%;
+
+              li {
+                width: 100%;
+                &.active {
+                  a {
+                    border-left: 4px solid rgba(0, 0, 0, 0.20);
+                  }
+                }
+              }
+            }
+          }
+
+        }
+
+        // Footer
+        footer {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
