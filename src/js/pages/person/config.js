@@ -14,6 +14,7 @@ const configPerson = {
     search: {
       "ui:widget": {
         options: {
+          // the cypher query to make the autocompletion. It must return a `value` field
           query: "MATCH (p:Person) WHERE lower(p.name) CONTAINS lower({value}) RETURN p.name AS value LIMIT 10"
         },
         component: "textCypherComplete"

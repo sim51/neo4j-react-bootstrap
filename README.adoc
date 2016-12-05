@@ -137,7 +137,7 @@ How to use it :
 [source,javascript]
 ----
 // Run the query
-this.neo4j.cypher('MATCH (n) WHERE id(n)={id}', {id:1})
+this.neo4j.cypher('MATCH (n) WHERE id(n)={id} RETURN n', {id:1})
 .then(result => {
   log.debug("Query result is :" + JSON.stringify(result));
   this.setState({
@@ -147,16 +147,102 @@ this.neo4j.cypher('MATCH (n) WHERE id(n)={id}', {id:1})
 .catch( error => {
   this.props.dispatch( notification.pushNotification, {
     title: "Error: ",
-    message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),
+    message: "An error occured => \n" + JSON.stringify(error),
     type : "danger"
   });
 });
 ----
 
-== Some component
+Or get a graph format :
+
+[source,javascript]
+----
+// Run the query
+this.neo4j.graph('MATCH (n) RETURN n LIMIT 25', {})
+.then(result => {
+  log.debug("Query result is :" + JSON.stringify(result));
+  this.setState({
+    graph: result // result is a '{ nodes[], edges:[] }'' compatible with sigma
+  });
+})
+.catch( error => {
+  this.props.dispatch( notification.pushNotification, {
+    title: "Error: ",
+    message: "An error occured => \n" + JSON.stringify(error),
+    type : "danger"
+  });
+});
+----
+
+== Some components
 
 === Sigma
 
+[source,javascript]
+----
+<ReactSigma
+  // sigma configuration (see ./src/js/config/sigma.js)
+  options={this.props.sigmaOptions}
+  // the graph object to display ( {nodes:[], edges:[]})
+  graph={this.state.graph}
+  // Configuration of the layout ForceAtlas (see ./src/js/config/sigma-layout.js)
+  layout={this.props.layoutOptions}
+  // graph style configuration (see ./src/js/config/sigma-graph-style.js)
+  style={sigmaGraphStyle}>
+</ReactSigma>
+----
+
+For now, when you hover a sigma objet, its is saved into baobab cursor `data, over`.
+This is used by the `GraphDisplayObject` component
+
 === JSon schema form
 
+Making some html form is really painfull ... but there is react JSON schema form for that :
+https://github.com/mozilla-services/react-jsonschema-form
+
+You just have to create a JSON schema object, and a UI object to display a form.
+Moreover there is a widget that create an input text with some cypher autocompletion.
+
+[source,javascript]
+----
+import TextCypherComplete  from "~/components/dumb/jsonschema-custom/text-cypher-complete";
+import Form from "react-jsonschema-form";
+
+include::./src/js/pages/person/config.js[lines="3..23"]
+
+<Form schema={searchSchema}
+      uiSchema={searchUi}
+      liveValidate={true}
+      onSubmit={ data => this.saveFormToStore(data) }
+      formData={this.props.search}
+      className={""}
+      widgets={{ textCypherComplete: TextCypherComplete }}/>
+----
+
 === Simple table
+
+This component helps to display a cypher result as a table, and allow you to add some actions for every row.
+
+[source,cypher]
+----
+this.neo4j.cypher(configMovie.searchQuery, nextProps.search)
+    .then(result => {
+        log.debug("Query result is :" + JSON.stringify(result));
+        this.setState({
+           data: result
+        });
+    })
+...
+var simpleTableActions = [ {
+  // the fontawesome icon configuration
+  icone:'eye',
+  // Name of the action (display on hover)
+  title:'See movie detail',
+  // function to execute on the click
+  event: (e) => { return (ev) => { window.location.hash = '/movie/' + e._id; }; }
+}];
+...
+<SimpleTable data={this.state.data} actions={simpleTableActions}/>
+----
+
+NB: Every column that doesn't start with `_` is displayed.
