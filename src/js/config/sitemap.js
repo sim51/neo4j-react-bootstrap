@@ -41,39 +41,28 @@ const configSitemap = {
       }
     },
     {
-      path: '/movie/:id',
-      name: 'Movie detail',
-      title: 'Movie detail',
-      hidden: true,
-      component: MovieDetail,
-      state: {
-        view: 'movie.detail',
-        movie: {
-          id: ':id'
-        }
-      }
-    },
-    {
       path: '/movie',
       name: 'Movie',
       title: 'Search a movie',
       component: MovieSearch,
       state: {
         view: 'movie.search'
-      }
-    },
-    {
-      path: '/person/:id',
-      name: 'Person detail',
-      title: 'Person detail',
-      hidden: true,
-      component: PersonDetail,
-      state: {
-        view: 'person.detail',
-        person: {
-          id: ':id'
+      },
+      pages: [
+        {
+          path: '/:id',
+          name: 'Movie detail',
+          title: 'Movie detail',
+          hidden: true,
+          component: MovieDetail,
+          state: {
+            view: 'movie.detail',
+            movie: {
+              id: ':id'
+            }
+          }
         }
-      }
+      ]
     },
     {
       path: '/person',
@@ -82,7 +71,22 @@ const configSitemap = {
       component: PersonSearch,
       state: {
         view: 'person.search'
-      }
+      },
+      pages:[
+        {
+          path: '/:id',
+          name: 'Person detail',
+          title: 'Person detail',
+          hidden: true,
+          component: PersonDetail,
+          state: {
+            view: 'person.detail',
+            person: {
+              id: ':id'
+            }
+          }
+        }
+      ]
     },
     {
       path: '/settings',
