@@ -23,7 +23,7 @@ Edit the file `src/js/config/applications.js`
 
 [source,javascript]
 ----
-include::./src/js/config/application.js
+include::./src/js/config/application.js[]
 ----
 
 === Neo4j configuration
@@ -32,7 +32,7 @@ Edit the file `src/js/config/neo4j.js`
 
 [source,javascript]
 ----
-include::./src/js/config/application.js
+include::./src/js/config/application.js[]
 ----
 
 === Graph style configuration
@@ -41,7 +41,7 @@ Edit the file `src/js/config/sigma-graph-style.js`
 
 [source,javascript]
 ----
-include::./src/js/config/sigma-graph-style.js
+include::./src/js/config/sigma-graph-style.js[]
 ----
 
 === Style configuration
@@ -59,7 +59,7 @@ Generally, I only change thoses variables :
 
 === Sitemap, router & menu configuration
 
-Edit the file `src/js/config/sigma-graph-style.js.
+Edit the file `src/js/config/sigma-graph-style.js`.
 This file is used to make the routing (based on the state) and the main menu.
 
 [source,javascript]
