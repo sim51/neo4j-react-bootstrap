@@ -1,1 +1,162 @@
-= Neo4j react bootstrap== Requirements* Have `NPM` installed on your laptop== How to execute* clone this repository* go to the project folder* make `npm install`* make `npm start`* go to `http://localhost:8080`== ConfigurationAll configurations files are located under `src/js/config'.To configure the application, you can edit them, or open your browser at this url :=== General application configurationEdit the file `src/js/config/applications.js'[source,javascript]----include::./src/js/config/application.js----=== Neo4j configurationEdit the file `src/js/config/neo4j.js'[source,javascript]----include::./src/js/config/application.js----=== Graph style configurationEdit the file `src/js/config/sigma-graph-style.js'[source,javascript]----include::./src/js/config/sigma-graph-style.js----=== Style configurationStyling is done via `less`, and all the style configuration should be done here : `src/less/variables`.Generally, I only change thoses variables :[source,less]----@color-first: #000000;@color-second: #808080;@color-third: #8c4cc0;@color-fourth: #43358b;----=== Sitemap, router & menu configurationEdit the file `src/js/config/sigma-graph-style.js'.This file is used to make the routing (based on the state) and the main menu.[source,javascript]----include::./src/js/config/sitemap.js[lines="15..42"]----== Some services=== LogThere is a logger service that helps you to log what you want into the browser console, depending to the log configuration.Moreover, messages into the console are colorised according to their level.How to use it :* make the import : `import Log from "~/services/log";`* create the logger with a name : `const log = new Log("Component.PersonSearch");`* And makes some logs :[source,javascript]----log.error("I'm an error");log.warn("I'm an warning");log.info("Just an info");log.debug("Debug message");----=== NotificationThere is a Notification service that helps you to create some notification for the end-user.A notification block will appear on the bottom right of the window, with your message.It will automatically turn off after some seconds, but if the end-user put its pointer on it, it stays.Notifications are stored into the baobab tree at this cursor : `notifications : []`You have to push a new object into this array, that following this structure :[source, javascript]----{  // title of the notification  title: "Error: ",  // message to display  message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),  // type of the notification. Available vaules are : success, info, warning, danger  type : "danger"}----To help you to push this notification, there is a baobab action for that :* import the action : `import * as notification from '~/actions/notifications';`* into your baobab branched component, you just have to do this :[source,javascript]----this.props.dispatch( notification.pushNotification, {  title: "Error: ",  message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),  type : "danger"});----=== Neo4jThere is a Neo4j service that helps you to communicate with a Neo4j server.How to use it :* make the import : `import Neo4jService from "~/services/neo4j/neo4j";`* create an instance : `this.neo4j = new Neo4jService(this.props.neo4j.url, this.props.neo4j.login, this.props.neo4j.password);`* And makes some queries :[source,javascript]----// Run the querythis.neo4j.cypher('MATCH (n) WHERE id(n)={id}', {id:1})    .then(result => {        log.debug("Query result is :" + JSON.stringify(result));        this.setState({           data: result        });    })    .catch( error => {        this.props.dispatch( notification.pushNotification, {            title: "Error: ",            message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),            type : "danger"        });    });----== Some component=== Sigma=== JSon schema form=== Simple table
+= Neo4j react bootstrap
+
+== Requirements
+
+* Have `NPM` installed on your laptop
+
+== How to execute
+
+* clone this repository
+* go to the project folder
+* make `npm install`
+* make `npm start`
+* go to `http://localhost:8080`
+
+== Configuration
+
+All configurations files are located under `src/js/config`.
+To configure the application, you can edit them, or open your browser at this url : `http://localhost:8080/#/settings/application`
+
+=== General application configuration
+
+Edit the file `src/js/config/applications.js`
+
+[source,javascript]
+----
+include::./src/js/config/application.js
+----
+
+=== Neo4j configuration
+
+Edit the file `src/js/config/neo4j.js`
+
+[source,javascript]
+----
+include::./src/js/config/application.js
+----
+
+=== Graph style configuration
+
+Edit the file `src/js/config/sigma-graph-style.js`
+
+[source,javascript]
+----
+include::./src/js/config/sigma-graph-style.js
+----
+
+=== Style configuration
+
+Styling is done via `less`, and all the style configuration should be done here : `src/less/variables`.
+Generally, I only change thoses variables :
+
+[source,less]
+----
+@color-first: #000000;
+@color-second: #808080;
+@color-third: #8c4cc0;
+@color-fourth: #43358b;
+----
+
+=== Sitemap, router & menu configuration
+
+Edit the file `src/js/config/sigma-graph-style.js.
+This file is used to make the routing (based on the state) and the main menu.
+
+[source,javascript]
+----
+include::./src/js/config/sitemap.js[lines="15..42"]
+----
+
+== Some services
+
+=== Log
+
+There is a logger service that helps you to log what you want into the browser console, depending to the log configuration.
+Moreover, messages into the console are colorised according to their level.
+
+How to use it :
+
+* make the import : `import Log from "~/services/log";`
+* create the logger with a name : `const log = new Log("Component.PersonSearch");`
+* And makes some logs :
+
+[source,javascript]
+----
+log.error("I'm an error");
+log.warn("I'm an warning");
+log.info("Just an info");
+log.debug("Debug message");
+----
+
+=== Notification
+
+There is a Notification service that helps you to create some notification for the end-user.
+A notification block will appear on the bottom right of the window, with your message.
+It will automatically turn off after some seconds, but if the end-user put its pointer on it, it stays.
+
+Notifications are stored into the baobab tree at this cursor : `notifications : []`
+
+You have to push a new object into this array, that following this structure :
+
+[source, javascript]
+----
+{
+  // title of the notification
+  title: "Error: ",
+  // message to display
+  message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),
+  // type of the notification. Available vaules are : success, info, warning, danger
+  type : "danger"
+}
+----
+
+To help you to push this notification, there is a baobab action for that :
+
+* import the action : `import * as notification from '~/actions/notifications';`
+* into your baobab branched component, you just have to do this :
+
+[source,javascript]
+----
+this.props.dispatch( notification.pushNotification, {
+  title: "Error: ",
+  message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),
+  type : "danger"
+});
+----
+
+=== Neo4j
+
+There is a Neo4j service that helps you to communicate with a Neo4j server.
+
+How to use it :
+
+* make the import : `import Neo4jService from "~/services/neo4j/neo4j";`
+* create an instance : `this.neo4j = new Neo4jService(this.props.neo4j.url, this.props.neo4j.login, this.props.neo4j.password);`
+* And makes some queries :
+
+[source,javascript]
+----
+// Run the query
+this.neo4j.cypher('MATCH (n) WHERE id(n)={id}', {id:1})
+.then(result => {
+  log.debug("Query result is :" + JSON.stringify(result));
+  this.setState({
+    data: result
+  });
+})
+.catch( error => {
+  this.props.dispatch( notification.pushNotification, {
+    title: "Error: ",
+    message: "L'erreur suivante est apparue lors de l'exécution de la requête => \n" + JSON.stringify(error),
+    type : "danger"
+  });
+});
+----
+
+== Some component
+
+=== Sigma
+
+=== JSon schema form
+
+=== Simple table
