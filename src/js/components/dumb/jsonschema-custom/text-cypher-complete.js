@@ -10,7 +10,7 @@ class TextCypherComplete extends Component {
 
     constructor(props) {
       super(props);
-      this.neo4j = new Neo4jService(this.props.neo4j.url, this.props.neo4j.login, this.props.neo4j.password);
+      this.neo4j = new Neo4jService('bolt://localhost', 'neo4j', 'admin');
       this.id =  _.uniqueId('list');
       this.state = {suggest:[]};
     }
@@ -35,7 +35,7 @@ class TextCypherComplete extends Component {
                   readOnly={this.props.readonly}
                   autoFocus={this.props.autofocus}
                   value={typeof this.props.value === "undefined" ? "" : this.props.value}
-                  onChange={(event) => {log.debug("Autocomplete onchange"); this._eventOnChange(event.target.value)}}
+                  onChange={(event) => this._eventOnChange(event.target.value)}
                   list={this.id}/>
 
           <datalist id={this.id}>
@@ -50,4 +50,4 @@ class TextCypherComplete extends Component {
 
 }
 
-export default  branch(  {  neo4j: ['settings', 'neo4j'] }, TextCypherComplete );
+export default  TextCypherComplete;
