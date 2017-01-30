@@ -31,7 +31,7 @@ class Neo4jService {
     initialize(url, user, password) {
         if (this.session)
             this.session.close();
-        this.driver = neo4j.v1.driver(url, neo4j.v1.auth.basic(user, password));
+        this.driver = neo4j.driver(url, neo4j.auth.basic(user, password));
         this.session = this.driver.session();
     }
 
@@ -41,7 +41,7 @@ class Neo4jService {
         Object.keys(params).map((key) => {
             var value = params[key];
             if (params[key] != null && (params[key].constructor.name === 'Integer' || params[key].constructor.name === 'Number')) {
-                value = neo4j.v1.int(params[key]);
+                value = neo4j.int(params[key]);
             }
             cast[key] = value
         })

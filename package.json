@@ -26,7 +26,7 @@
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "0.0.4",
     "linkurious": "^1.5.0",
-    "neo4j-driver": "^1.0.4",
+    "neo4j-driver": "^1.1.0",
     "react": "^15.2.1",
     "react-chartjs": "^0.8.0",
     "react-codemirror": "^0.2.6",
